@@ -7,3 +7,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @author ECIO Engineering Team
 /// @title Claimtoken Smart Contract
+
+
+//BUSD token address.
+address public busdTokenAddress;
+
+function setBUSDTokenAddress(address _address) public onlyOwner{
+    busdTokenAddress = _address;
+}
