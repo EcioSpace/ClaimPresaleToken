@@ -17,10 +17,9 @@ contract Claimtoken is Ownable, ReentrancyGuard {
   address preSalesAddress
 
   constructor(
-    address _preSalesAddress
+
   ) {
       owner = msg.sender;
-      preSalesAddress = _preSalesAddress;
   }
 
   //BUSD token address.
@@ -28,6 +27,11 @@ contract Claimtoken is Ownable, ReentrancyGuard {
 
   //ECIO token address.
   address public ecioTokenAddress;
+
+
+  // Presales Contract
+  Presales presales;
+
 
   function setBUSDTokenAddress(address _address) public onlyOwner{
       busdTokenAddress = _address;
@@ -37,8 +41,13 @@ contract Claimtoken is Ownable, ReentrancyGuard {
       ecioTokenAddress = _address;
   }
 
+  // set preSalesAddress
+  function setPresaleFromAddress(address _address) public {
+      preslaes = Presales(_addr);
+  }
+
    function checkPresale(address _customerAddress) public view returns (uint256) {
-        return accountBalances[_customerAddress];
+        return presales.accountBalances[_customerAddress];
    }
 
 
