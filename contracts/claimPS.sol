@@ -47,7 +47,7 @@ contract Claimtoken is Ownable, ReentrancyGuard {
   }
 
    function checkPresale(address _customerAddress) public view returns (uint256) {
-        return presales.accountBalances[_customerAddress];
+        return presales.accountBalances(_customerAddress);
    }
 
 
