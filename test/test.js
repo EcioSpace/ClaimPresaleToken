@@ -4,8 +4,13 @@ const Presales = artifacts.require('Presales');
 contract('Claimtoken', ([owner, user, someuser]) => {
   it('Should call mapping from Presales Contract', async () => {
     // deploy Claimtoken & Presales;
-    let marketPlace = await Claimtoken.new({ from: owner });
-    let proxyContract = await Presales.new({ from: owner });
+    let claimtokenContract = await Claimtoken.new({ from: owner });
+    let presalesContract = await Presales.new({ from: owner });
+
+
+    
+
+
 
 
 

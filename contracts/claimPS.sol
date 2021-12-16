@@ -9,28 +9,19 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 /// @author ECIO Engineering Team
 /// @title Claimtoken Smart Contract
 
+interface BalancesChecker {
+    function accountBalances(address _address) external view returns (uint);
+}
+
+
 
 contract Claimtoken is Ownable, ReentrancyGuard {
-
-
-  address owner;
-  address preSalesAddress
-
-  constructor(
-
-  ) {
-      owner = msg.sender;
-  }
 
   //BUSD token address.
   address public busdTokenAddress;
 
   //ECIO token address.
   address public ecioTokenAddress;
-
-
-  // Presales Contract
-  Presales presales;
 
 
   function setBUSDTokenAddress(address _address) public onlyOwner{
@@ -41,20 +32,9 @@ contract Claimtoken is Ownable, ReentrancyGuard {
       ecioTokenAddress = _address;
   }
 
-  // set preSalesAddress
-  function setPresaleFromAddress(address _address) public {
-      preslaes = Presales(_addr);
-  }
-
-   function checkPresale(address _customerAddress) public view returns (uint256) {
-        return presales.accountBalances(_customerAddress);
+  function checkPresale(address presales, address _customerAddress) external view returns (uint256) {
+        return BalancesChecker(presales).accountBalances(_customerAddress);
    }
-
-
-    function _tranferToken(
-      ) public payable nonReentrant {
-      IERC20(ecioTokenAddress).transferFrom(address(this), msg.sender, amount);
-    }
 
 
 

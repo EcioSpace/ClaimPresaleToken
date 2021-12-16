@@ -46,19 +46,19 @@ contract Presales is Ownable {
 
 
     //Validate the account has registered or not ?
-    modifier hasWhitelistRegistered(address _account){
-        require(lotId(_account) != 0, "The account is not whitelist listed.");
-        _;
-    }
+    // modifier hasWhitelistRegistered(address _account){
+    //     require(lotId(_account) != 0, "The account is not whitelist listed.");
+    //     _;
+    // }
 
     //Validate start and end timestamp to allow users to access buying function.
-    modifier isPresaleOpen(address _account){
-       uint _lotId = accountLotId[_account];
-       require(lotsStartTime[_lotId] !=0 && lotsEndTime[_lotId] !=0 ,"Pre-sale hasn't started.");
-       require(lotsStartTime[_lotId] <= timeNow(), "Pre-sale hasn't started.");
-       require(lotsEndTime[_lotId] >= timeNow(), "Pre-sale has closed.");
-        _;
-    }
+    // modifier isPresaleOpen(address _account){
+    //    uint _lotId = accountLotId[_account];
+    //    require(lotsStartTime[_lotId] !=0 && lotsEndTime[_lotId] !=0 ,"Pre-sale hasn't started.");
+    //    require(lotsStartTime[_lotId] <= timeNow(), "Pre-sale hasn't started.");
+    //    require(lotsEndTime[_lotId] >= timeNow(), "Pre-sale has closed.");
+    //     _;
+    // }
 
     uint private timestamp;
     function setTimeNow(uint _timestamp) public onlyOwner{
@@ -84,7 +84,7 @@ contract Presales is Ownable {
             return 0;
         }
 
-        require(lotsStartTime[_lotId] !=0 && lotsEndTime[_lotId] !=0 ,"Pre-sale hasn't started.");
+        require(lotsStartTime[_lotId] !=0 && lotsEndTime[_lotId] !=0 ,"Pre-sale hasnt started.");
 
         if (timeNow() >= lotsStartTime[_lotId] && timeNow() <= lotsEndTime[_lotId]){
             //Opened
@@ -129,16 +129,16 @@ contract Presales is Ownable {
         lotsTokenPool[LOT1_LOT2] = 0;
     }
 
-    /**
-    * @dev ImportWhitelist is function for manually import addresses that are allowed to buying.
-    */
-    function importWhitelist(address[] memory _accounts, uint[] memory _lotIds) public onlyOwner {
-        for(uint256 i = 0; i < _accounts.length; i++){
-            accountLotId[_accounts[i]] = _lotIds[i];
-            accountBalances[_accounts[i]] = 0;
-            lotsAccountCount[_lotIds[i]] = lotsAccountCount[_lotIds[i]] + 1;
-        }
-    }
+    // /**
+    // * @dev ImportWhitelist is function for manually import addresses that are allowed to buying.
+    // */
+    // function importWhitelist(address[] memory _accounts, uint[] memory _lotIds) public onlyOwner {
+    //     for(uint256 i = 0; i < _accounts.length; i++){
+    //         accountLotId[_accounts[i]] = _lotIds[i];
+    //         accountBalances[_accounts[i]] = 0;
+    //         lotsAccountCount[_lotIds[i]] = lotsAccountCount[_lotIds[i]] + 1;
+    //     }
+    // }
 
     /**
     * @dev Show account's lotId
@@ -180,7 +180,7 @@ contract Presales is Ownable {
     /**
     * @dev a function for transfer BUSD token to this contract address and waiting for claim ECIO Token later.
     */
-    function buyPresale(address _account, uint _amount) external hasWhitelistRegistered(_account) isPresaleOpen(_account) {
+    function buyPresale(address _account, uint _amount) external {
 
         require(_amount > 0, "Your amount is too small.");
 
