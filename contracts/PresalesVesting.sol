@@ -24,8 +24,16 @@ contract Vesting is ReentrancyGuard {
         bool exist;
     }
 
-    event AddVesting(address _user, uint256 _amount, uint256 _startBlock);
-    event ClaimVesting(address _user, uint256 _amount);
+    event AddVesting(
+      address _user,
+      uint256 _amount,
+      uint256 _startBlock
+    );
+
+    event ClaimVesting(
+      address _user,
+      uint256 _amount
+    );
 
 
 
