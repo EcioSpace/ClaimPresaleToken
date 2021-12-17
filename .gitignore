@@ -1,3 +1,4 @@
 .secret
 .apiKey
 node_modules
+build
