@@ -114,7 +114,7 @@ contract ClaimtokenV2 is Ownable {
 
   }
 
-  // find a way to insert nonReentrant
+
   function claimECIOToken(uint8 _periodId) public hasPresaleAuthority(msg.sender) {
       // compare now with periodReleaseTime[_periodId]
       require( block.timestamp >= periodReleaseTime[_periodId], "Your time has not come" );
@@ -133,9 +133,12 @@ contract ClaimtokenV2 is Ownable {
 
   }
 
-  function checkClaimablePeriod(uint8 _periodId) public view returns (uint256 claimableAmount) {
-
-
+  function checkIsAvailable(uint8 _periodId) public view returns (bool) {
+        if( block.timestamp >= periodReleaseTime[_periodId] ) {
+          return true;
+        } else {
+          return false;
+        }
     }
 
 }
