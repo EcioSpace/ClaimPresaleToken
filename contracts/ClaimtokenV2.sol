@@ -110,13 +110,14 @@ contract ClaimtokenV2 is Ownable {
       uint256 busdAmountPerPeriod = (customerBalance * periodPercentages[_periodId]) / 100;
 
      //Calculate ECIO token from using BUSD amount of this period devided by ECIO presale price.
-      return busdAmountPerPeriod / ECIO_PRESALE_PRICE;
+      return (busdAmountPerPeriod / ECIO_PRESALE_PRICE) * 10**18;
 
   }
 
+  // find a way to insert nonReentrant
   function claimECIOToken(uint8 _periodId) public hasPresaleAuthority(msg.sender) {
       // compare now with periodReleaseTime[_periodId]
-      require( block.timestamp >=  periodReleaseTime[_periodId], "Your time has not come" );
+      require( block.timestamp >= periodReleaseTime[_periodId], "Your time has not come" );
 
       //Verify
       require(!claimRecords[msg.sender][_periodId], "This period is claimed.");
@@ -131,5 +132,10 @@ contract ClaimtokenV2 is Ownable {
       claimRecords[msg.sender][_periodId] = true;
 
   }
+
+  function checkClaimablePeriod(uint8 _periodId) public view returns (uint256 claimableAmount) {
+
+
+    }
 
 }
