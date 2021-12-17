@@ -16,6 +16,7 @@ interface BalancesChecker {
 interface VestingInterface {
     function addVesting(address _user, uint256 _amount) external view returns (uint);
     function claimVesting() external nonReentrant{};
+    function getVestingClaimableAmount(address _user) external view returns (uint256);
 }
 
 contract Claimtoken is Ownable, ReentrancyGuard {
@@ -51,7 +52,7 @@ contract Claimtoken is Ownable, ReentrancyGuard {
         return BalancesChecker(presalesAddr).accountBalances(_customerAddress);
   }
 
-  function claimToken(address _customerAddress) public nonReentrant {
+  function amountCaculate(address _customerAddress) public nonReentrant {
       //update Presales Balance
       customerBalance = BalancesChecker(presalesAddress).accountBalances(_customerAddress);
 
