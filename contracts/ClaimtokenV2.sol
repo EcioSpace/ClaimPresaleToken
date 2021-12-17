@@ -46,12 +46,12 @@ contract ClaimtokenV2 is Ownable {
   constructor() {
 
       //Initial percentage and release time of each periods.
-      periodPercentages[PERIOD_1ST] = 20;
-      periodPercentages[PERIOD_2ND] = 16;
-      periodPercentages[PERIOD_3RD] = 16;
-      periodPercentages[PERIOD_4TH] = 16;
-      periodPercentages[PERIOD_5TH] = 16;
-      periodPercentages[PERIOD_6TH] = 16;
+      periodPercentages[PERIOD_1ST] = 200;
+      periodPercentages[PERIOD_2ND] = 160;
+      periodPercentages[PERIOD_3RD] = 160;
+      periodPercentages[PERIOD_4TH] = 160;
+      periodPercentages[PERIOD_5TH] = 160;
+      periodPercentages[PERIOD_6TH] = 160;
 
       periodReleaseTime[PERIOD_1ST] = 1640008800;
       periodReleaseTime[PERIOD_2ND] = 1642687200;
@@ -119,8 +119,9 @@ contract ClaimtokenV2 is Ownable {
       // compare now with periodReleaseTime[_periodId]
       require( block.timestamp >= periodReleaseTime[_periodId], "Your time has not come" );
 
-      //Verify
-      require(!claimRecords[msg.sender][_periodId], "This period is claimed.");
+    //Verify
+    require(!claimRecords[msg.sender][_periodId], "This period is claimed.");
+
 
      //Calculate ECIO token for this period
       uint256 ecioAmount = calculateECIOPerPeriod(msg.sender, _periodId);
@@ -130,7 +131,6 @@ contract ClaimtokenV2 is Ownable {
 
       //Set flag that this user is claimed
       claimRecords[msg.sender][_periodId] = true;
-
   }
 
   function checkIsAvailable(uint8 _periodId) public view returns (bool) {

@@ -51,7 +51,7 @@
        timeoutBlocks: 200000000,
        skipDryRun: true
      },
-     bsc: {
+     mainnet: {
        provider: () => new HDWalletProvider(mnemonic, `https://bsc-dataseed1.defibit.io`),
        network_id: 56,
        confirmations: 10,
