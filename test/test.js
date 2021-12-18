@@ -1,5 +1,6 @@
-const Claimtoken = artifacts.require('Claimtoken');
-const Presales = artifacts.require('Presales');
+const Claimtoken = artifacts.require('ClaimtokenTest');
+const Presales = artifacts.require('PresaleMockup');
+const ECIOToken = artifacts.require('ECIO');
 
 contract('Claimtoken', ([owner, user, someuser]) => {
   it('Should call mapping from Presales Contract', async () => {
@@ -8,7 +9,7 @@ contract('Claimtoken', ([owner, user, someuser]) => {
     let presalesContract = await Presales.new({ from: owner });
 
 
-    
+
 
 
 
