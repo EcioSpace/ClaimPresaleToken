@@ -21,7 +21,7 @@ interface BalancesChecker {
     function accountBalances(address _address) external view returns (uint);
 }
 
-contract ClaimtokenV2 is Ownable {
+contract ClaimtokenV2 is Ownable, ReentrancyGuard {
 
   //ECIO token address.
   address public ecioTokenAddress;
@@ -116,22 +116,22 @@ contract ClaimtokenV2 is Ownable {
 
 
   function claimECIOToken(uint8 _periodId) public hasPresaleAuthority(msg.sender) nonReentrant {
-       // compare now with periodReleaseTime[_periodId]
-       require( block.timestamp >= periodReleaseTime[_periodId], "Your tokens are not realeased yet, please check the date" );
+      // compare now with periodReleaseTime[_periodId]
+      require( block.timestamp >= periodReleaseTime[_periodId], "Your time has not come" );
 
-       //Verify
-       require(!claimRecords[msg.sender][_periodId], "This period is claimed.");
+    //Verify
+    require(!claimRecords[msg.sender][_periodId], "This period is claimed.");
 
-      //Calculate ECIO token for this period
-       uint256 ecioAmount = calculateECIOPerPeriod(msg.sender, _periodId);
 
-       //Transfer ECIO Token in this contract to sender
-       IERC20(ecioTokenAddress).transfer(msg.sender, ecioAmount);
+     //Calculate ECIO token for this period
+      uint256 ecioAmount = calculateECIOPerPeriod(msg.sender, _periodId);
 
-       //Set flag that this user is claimed
-       claimRecords[msg.sender][_periodId] = true;
+      //Transfer ECIO Token in this contract to sender
+      IERC20(ecioTokenAddress).transfer(msg.sender, ecioAmount);
 
-   }
+      //Set flag that this user is claimed
+      claimRecords[msg.sender][_periodId] = true;
+  }
 
   function checkIsAvailable(uint8 _periodId) public view returns (bool) {
         if( block.timestamp >= periodReleaseTime[_periodId] ) {
