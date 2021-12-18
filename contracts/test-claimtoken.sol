@@ -141,4 +141,20 @@ contract ClaimtokenV2 is Ownable, ReentrancyGuard {
         }
     }
 
+    /* tranfer to owner address*/
+    function _tranfertoOwner(address _ecioAddress, address _receiver, uint256 _amount)
+    public
+    OnlyOwner
+    nonReentrant
+    {
+
+      uint256 balance = ERC20(_tokenAddress).balanceOf(address(this));
+      require(
+          balance >= _amount,
+          "Your balance has not enough amount totranfer."
+      );
+
+      IERC20(_ecioAddress).transfer(_receiver, _amount);
+    }
+
 }
