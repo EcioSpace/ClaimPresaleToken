@@ -46,12 +46,12 @@ contract ClaimtokenV2 is Ownable {
   constructor() {
 
       //Initial percentage and release time of each periods.
-      periodPercentages[PERIOD_1ST] = 200;
-      periodPercentages[PERIOD_2ND] = 160;
-      periodPercentages[PERIOD_3RD] = 160;
-      periodPercentages[PERIOD_4TH] = 160;
-      periodPercentages[PERIOD_5TH] = 160;
-      periodPercentages[PERIOD_6TH] = 160;
+      periodPercentages[PERIOD_1ST] = 20;
+      periodPercentages[PERIOD_2ND] = 16;
+      periodPercentages[PERIOD_3RD] = 16;
+      periodPercentages[PERIOD_4TH] = 16;
+      periodPercentages[PERIOD_5TH] = 16;
+      periodPercentages[PERIOD_6TH] = 16;
 
       periodReleaseTime[PERIOD_1ST] = 1640008800;
       periodReleaseTime[PERIOD_2ND] = 1642687200;
