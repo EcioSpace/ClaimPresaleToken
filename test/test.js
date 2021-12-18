@@ -7,7 +7,7 @@ contract('Claimtoken', ([owner, user, someuser]) => {
     // deploy Claimtoken & Presales;
     let claimtokenContract = await Claimtoken.new({ from: owner });
     let presalesContract = await Presales.new({ from: owner });
-
+    let ecioTokenAddress = await ECIOToken.new({ from: owner });
 
 
 
