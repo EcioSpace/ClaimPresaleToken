@@ -21,7 +21,7 @@ interface BalancesChecker {
     function accountBalances(address _address) external view returns (uint);
 }
 
-contract ClaimtokenV2 is Ownable, ReentrancyGuard {
+contract ClaimtokenTest is Ownable, ReentrancyGuard {
 
   //ECIO token address.
   address public ecioTokenAddress;
