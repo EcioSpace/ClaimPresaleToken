@@ -53,12 +53,12 @@ contract ClaimtokenTest is Ownable, ReentrancyGuard {
       periodPercentages[PERIOD_5TH] = 16; // 16%
       periodPercentages[PERIOD_6TH] = 16; // 16%
 
-      periodReleaseTime[PERIOD_1ST] = 1639837800; // 9.30 PM
-      periodReleaseTime[PERIOD_2ND] = 1639838700; // 9.45 PM
-      periodReleaseTime[PERIOD_3RD] = 1639839600; // 10.00 PM
-      periodReleaseTime[PERIOD_4TH] = 1639840500; // 10.15 PM
-      periodReleaseTime[PERIOD_5TH] = 1639841400; // 10.30 PM
-      periodReleaseTime[PERIOD_6TH] = 1639842300; // 10.45 PM
+      periodReleaseTime[PERIOD_1ST] = 1639843200; // 11.00 PM
+      periodReleaseTime[PERIOD_2ND] = 1639843500; // 11.05 PM
+      periodReleaseTime[PERIOD_3RD] = 1639843800; // 11.10 PM
+      periodReleaseTime[PERIOD_4TH] = 1639844100; // 11.15 PM
+      periodReleaseTime[PERIOD_5TH] = 1639844400; // 11.20 PM
+      periodReleaseTime[PERIOD_6TH] = 1639844700; // 11.25 PM
 
   }
 
@@ -142,19 +142,19 @@ contract ClaimtokenTest is Ownable, ReentrancyGuard {
     }
 
     /* tranfer to owner address*/
-    function _tranfertoOwner(address _ecioAddress, address _receiver, uint256 _amount)
-    public
-    OnlyOwner
-    nonReentrant
-    {
+   function _tranfertoOwner(address _ecioAddress, address _receiver, uint256 _amount)
+   public
+   onlyOwner
+   nonReentrant
+   {
 
-      uint256 balance = ERC20(_tokenAddress).balanceOf(address(this));
-      require(
-          balance >= _amount,
-          "Your balance has not enough amount totranfer."
-      );
+     uint256 balance = IERC20(_ecioAddress).balanceOf(address(this));
+     require(
+         balance >= _amount,
+         "Your balance has not enough amount totranfer."
+     );
 
-      IERC20(_ecioAddress).transfer(_receiver, _amount);
-    }
+     IERC20(_ecioAddress).transfer(_receiver, _amount);
+   }
 
 }
