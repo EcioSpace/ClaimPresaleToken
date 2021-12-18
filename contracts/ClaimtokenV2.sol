@@ -27,12 +27,13 @@ contract ClaimtokenV2 is Ownable {
   address public ecioTokenAddress;
 
   //Presales Address
-  address public presalesAddress;
+  address public presalesAddressV1;
+  address public presalesAddressV2;
 
   uint256 public constant ECIO_PRESALE_PRICE  = 2000000000000000;
 
-  mapping(uint8 => uint8) periodPercentages;
-  mapping(uint8 => uint256) periodReleaseTime;
+  mapping(uint8 => uint16)  public periodPercentages;
+  mapping(uint8 => uint256) public periodReleaseTime;
 
   uint8 public constant PERIOD_1ST  = 1;
   uint8 public constant PERIOD_2ND  = 2;
@@ -41,17 +42,17 @@ contract ClaimtokenV2 is Ownable {
   uint8 public constant PERIOD_5TH  = 5;
   uint8 public constant PERIOD_6TH  = 6;
 
-  mapping(address => mapping(uint8 => bool)) claimRecords;
+  mapping(address => mapping(uint8 => bool)) public claimRecords;
 
   constructor() {
 
       //Initial percentage and release time of each periods.
-      periodPercentages[PERIOD_1ST] = 200;
-      periodPercentages[PERIOD_2ND] = 160;
-      periodPercentages[PERIOD_3RD] = 160;
-      periodPercentages[PERIOD_4TH] = 160;
-      periodPercentages[PERIOD_5TH] = 160;
-      periodPercentages[PERIOD_6TH] = 160;
+      periodPercentages[PERIOD_1ST] = 2000;
+      periodPercentages[PERIOD_2ND] = 1600;
+      periodPercentages[PERIOD_3RD] = 1600;
+      periodPercentages[PERIOD_4TH] = 1600;
+      periodPercentages[PERIOD_5TH] = 1600;
+      periodPercentages[PERIOD_6TH] = 1600;
 
       periodReleaseTime[PERIOD_1ST] = 1640008800;
       periodReleaseTime[PERIOD_2ND] = 1642687200;
@@ -62,9 +63,12 @@ contract ClaimtokenV2 is Ownable {
 
   }
 
+  event ClaimECIOToken(address indexed user, uint8 indexed period , uint256 amount , uint256 timestamp);
+
    modifier hasPresaleAuthority(address _address) {
-      uint256 balance = BalancesChecker(presalesAddress).accountBalances(_address);
-      require(balance > 0);
+      uint256 balance1 = BalancesChecker(presalesAddressV1).accountBalances(_address);
+      uint256 balance2 = BalancesChecker(presalesAddressV2).accountBalances(_address);
+      require((balance1+balance2) > 0);
       _;
    }
 
@@ -76,8 +80,12 @@ contract ClaimtokenV2 is Ownable {
       ecioTokenAddress = _address;
   }
 
-  function setPresaleAddress(address _address) public onlyOwner{
-      presalesAddress = _address;
+  function setPresaleAddressV1(address _address) public onlyOwner{
+      presalesAddressV1 = _address;
+  }
+
+  function setPresaleAddressV2(address _address) public onlyOwner{
+      presalesAddressV2 = _address;
   }
 
   function checkPresale(address presalesAddr, address _customerAddress) external view returns (uint256) {
@@ -87,8 +95,9 @@ contract ClaimtokenV2 is Ownable {
   function ecioAmountByPeriod(address _address, uint8 _periodId) public view returns (uint256)  {
 
        //Get BUSD amount which user use to buy presale.
-       uint256 customerBalance = BalancesChecker(presalesAddress).accountBalances(_address);
-       require( customerBalance > 0, "This address can not claimToken");
+       uint256 balance1 = BalancesChecker(presalesAddressV1).accountBalances(_address);
+       uint256 balance2 = BalancesChecker(presalesAddressV2).accountBalances(_address);
+       require( (balance1 + balance2) > 0, "This address can not claimToken");
 
 
        //If user is claimed this func will return 0
@@ -104,10 +113,11 @@ contract ClaimtokenV2 is Ownable {
   function calculateECIOPerPeriod(address _address, uint8 _periodId) internal view returns (uint256) {
 
       //Get BUSD amount which user bought at presale.
-      uint256 customerBalance = BalancesChecker(presalesAddress).accountBalances(_address);
+     uint256 balance1 = BalancesChecker(presalesAddressV1).accountBalances(_address);
+     uint256 balance2 = BalancesChecker(presalesAddressV2).accountBalances(_address);
 
       //Calculate BUSD token from percentage of the period
-      uint256 busdAmountPerPeriod = (customerBalance * periodPercentages[_periodId]) / 1000;
+      uint256 busdAmountPerPeriod = ((balance1 + balance2) * periodPercentages[_periodId]) / 10000;
 
      //Calculate ECIO token from using BUSD amount of this period devided by ECIO presale price.
       return (busdAmountPerPeriod / ECIO_PRESALE_PRICE) * 10**18;
@@ -116,11 +126,12 @@ contract ClaimtokenV2 is Ownable {
 
 
   function claimECIOToken(uint8 _periodId) public hasPresaleAuthority(msg.sender) {
+      
       // compare now with periodReleaseTime[_periodId]
       require( block.timestamp >= periodReleaseTime[_periodId], "Your time has not come" );
 
-    //Verify
-    require(!claimRecords[msg.sender][_periodId], "This period is claimed.");
+      //Verify
+      require(!claimRecords[msg.sender][_periodId], "This period is claimed.");
 
 
      //Calculate ECIO token for this period
@@ -131,6 +142,9 @@ contract ClaimtokenV2 is Ownable {
 
       //Set flag that this user is claimed
       claimRecords[msg.sender][_periodId] = true;
+
+
+      emit ClaimECIOToken(msg.sender, _periodId, ecioAmount, block.timestamp);
   }
 
   function checkIsAvailable(uint8 _periodId) public view returns (bool) {
