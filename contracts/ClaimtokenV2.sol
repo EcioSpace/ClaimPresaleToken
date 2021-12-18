@@ -107,7 +107,7 @@ contract ClaimtokenV2 is Ownable {
       uint256 customerBalance = BalancesChecker(presalesAddress).accountBalances(_address);
 
       //Calculate BUSD token from percentage of the period
-      uint256 busdAmountPerPeriod = (customerBalance * periodPercentages[_periodId]) / 100;
+      uint256 busdAmountPerPeriod = (customerBalance * periodPercentages[_periodId]) / 1000;
 
      //Calculate ECIO token from using BUSD amount of this period devided by ECIO presale price.
       return (busdAmountPerPeriod / ECIO_PRESALE_PRICE) * 10**18;
@@ -140,5 +140,13 @@ contract ClaimtokenV2 is Ownable {
           return false;
         }
     }
+
+   /**
+    * @dev Transfer is function to transfer token from contract to other account.
+   */
+   function transfer(address _contractAddress, address  _to, uint _amount) public onlyOwner {
+        IERC20 _token = IERC20(_contractAddress);
+        _token.transfer(_to, _amount);
+   }
 
 }
