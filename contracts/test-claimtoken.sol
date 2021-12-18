@@ -46,19 +46,19 @@ contract ClaimtokenV2 is Ownable, ReentrancyGuard {
   constructor() {
 
       //Initial percentage and release time of each periods.
-      periodPercentages[PERIOD_1ST] = 20;
-      periodPercentages[PERIOD_2ND] = 16;
-      periodPercentages[PERIOD_3RD] = 16;
-      periodPercentages[PERIOD_4TH] = 16;
-      periodPercentages[PERIOD_5TH] = 16;
-      periodPercentages[PERIOD_6TH] = 16;
+      periodPercentages[PERIOD_1ST] = 20; // 20%
+      periodPercentages[PERIOD_2ND] = 16; // 16%
+      periodPercentages[PERIOD_3RD] = 16; // 16%
+      periodPercentages[PERIOD_4TH] = 16; // 16%
+      periodPercentages[PERIOD_5TH] = 16; // 16%
+      periodPercentages[PERIOD_6TH] = 16; // 16%
 
-      periodReleaseTime[PERIOD_1ST] = 1639837800;
-      periodReleaseTime[PERIOD_2ND] = 1639838700;
-      periodReleaseTime[PERIOD_3RD] = 1639839600;
-      periodReleaseTime[PERIOD_4TH] = 1639840500;
-      periodReleaseTime[PERIOD_5TH] = 1639841400;
-      periodReleaseTime[PERIOD_6TH] = 1639842300;
+      periodReleaseTime[PERIOD_1ST] = 1639837800; // 9.30 PM
+      periodReleaseTime[PERIOD_2ND] = 1639838700; // 9.45 PM
+      periodReleaseTime[PERIOD_3RD] = 1639839600; // 10.00 PM
+      periodReleaseTime[PERIOD_4TH] = 1639840500; // 10.15 PM
+      periodReleaseTime[PERIOD_5TH] = 1639841400; // 10.30 PM
+      periodReleaseTime[PERIOD_6TH] = 1639842300; // 10.45 PM
 
   }
 
