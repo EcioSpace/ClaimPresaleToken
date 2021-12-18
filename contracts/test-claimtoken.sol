@@ -107,10 +107,10 @@ contract ClaimtokenV2 is Ownable, ReentrancyGuard {
       uint256 customerBalance = BalancesChecker(presalesAddress).accountBalances(_address);
 
       //Calculate BUSD token from percentage of the period
-      uint256 busdAmountPerPeriod = (customerBalance * periodPercentages[_periodId]) / 100;
+      uint256 busdAmountPerPeriod = (customerBalance * periodPercentages[_periodId]) / 100; // use simple percentage math, in wei
 
      //Calculate ECIO token from using BUSD amount of this period devided by ECIO presale price.
-      return (busdAmountPerPeriod / ECIO_PRESALE_PRICE) * 10**18;
+      return (busdAmountPerPeriod / ECIO_PRESALE_PRICE) * 10**18; // we devided in wei and convert back to wei
 
   }
 
